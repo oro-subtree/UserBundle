@@ -1,22 +1,14 @@
 <?php
 
-namespace Oro\Bundle\UserBundle\DataFixtures\Migrations\ORM\v1_0;
+namespace Oro\Bundle\UserBundle\Migrations\DataFixtures\ORM\v1_0;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use Oro\Bundle\UserBundle\Entity\Role;
 
-class LoadRolesData extends AbstractFixture implements DependentFixtureInterface
+class LoadRolesData extends AbstractFixture
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getDependencies()
-    {
-        return ['Oro\Bundle\OrganizationBundle\DataFixtures\Migrations\ORM\v1_0\LoadBusinessUnitData'];
-    }
 
     /**
      * Load roles
