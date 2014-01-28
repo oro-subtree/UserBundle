@@ -1,30 +1,37 @@
 <?php
-namespace Oro\Bundle\UserBundle\DataFixtures\ORM;
+namespace Oro\Bundle\UserBundle\Migrations\DataFixtures\ORM\v1_0;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use Oro\Bundle\UserBundle\Entity\Group;
+use Oro\Bundle\OrganizationBundle\Migrations\DataFixtures\ORM\v1_0\LoadBusinessUnitData;
 
-class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
+class LoadGroupData extends AbstractFixture implements DependentFixtureInterface
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return ['Oro\Bundle\OrganizationBundle\Migrations\DataFixtures\ORM\v1_0\LoadBusinessUnitData'];
+    }
+
     public function load(ObjectManager $manager)
     {
         /**
          * addRole was commented due a ticket BAP-1675
          */
-        $defaultBusinessUnit = null;
-        if ($this->hasReference('default_business_unit')) {
-            $defaultBusinessUnit = $this->getReference('default_business_unit');
-        }
+        $defaultBusinessUnit = $manager
+            ->getRepository('OroOrganizationBundle:BusinessUnit')
+            ->findOneBy(['name' => LoadBusinessUnitData::MAIN_BUSINESS_UNIT]);
         $administrators = new Group('Administrators');
         //$administrators->addRole($this->getReference('administrator_role'));
         if ($defaultBusinessUnit) {
             $administrators->setOwner($defaultBusinessUnit);
         }
         $manager->persist($administrators);
-        $this->setReference('oro_group_administrators', $administrators);
 
         $sales= new Group('Sales');
         //$sales->addRole($this->getReference('manager_role'));
@@ -32,7 +39,6 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
             $sales->setOwner($defaultBusinessUnit);
         }
         $manager->persist($sales);
-        $this->setReference('oro_group_sales', $sales);
 
         $marketing= new Group('Marketing');
         //$marketing->addRole($this->getReference('manager_role'));
@@ -40,13 +46,7 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
             $marketing->setOwner($defaultBusinessUnit);
         }
         $manager->persist($marketing);
-        $this->setReference('oro_group_marketing', $marketing);
 
         $manager->flush();
-    }
-
-    public function getOrder()
-    {
-        return 100;
     }
 }
