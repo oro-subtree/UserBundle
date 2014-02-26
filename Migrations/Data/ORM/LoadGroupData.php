@@ -1,12 +1,12 @@
 <?php
-namespace Oro\Bundle\UserBundle\Migrations\DataFixtures\ORM;
+namespace Oro\Bundle\UserBundle\Migrations\Data\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use Oro\Bundle\UserBundle\Entity\Group;
-use Oro\Bundle\OrganizationBundle\Migrations\DataFixtures\ORM\LoadOrganizationAndBusinessUnitData;
+use Oro\Bundle\OrganizationBundle\Migrations\Data\ORM\LoadOrganizationAndBusinessUnitData;
 
 class LoadGroupData extends AbstractFixture implements DependentFixtureInterface
 {
@@ -15,7 +15,7 @@ class LoadGroupData extends AbstractFixture implements DependentFixtureInterface
      */
     public function getDependencies()
     {
-        return ['Oro\Bundle\OrganizationBundle\Migrations\DataFixtures\ORM\LoadOrganizationAndBusinessUnitData'];
+        return ['Oro\Bundle\OrganizationBundle\Migrations\Data\ORM\LoadOrganizationAndBusinessUnitData'];
     }
 
     public function load(ObjectManager $manager)
