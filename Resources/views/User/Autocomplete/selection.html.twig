@@ -1,2 +1,1 @@
-<img src="<% if (typeof avatar !== 'undefined' && avatar) { %><%= avatar %><% } else { %>{{- asset('bundles/oroui/img/info-user.png') -}}<% } %>" width="16" height="16" />
-&nbsp;<%= _.escape(fullName) %>
+<img src="<% if (avatar) { %><%= avatar %><% } else { %>{{ asset('bundles/oroui/img/avatar-xsmall.png')|e('html_attr')|raw }}<% } %>" width="16" height="16" />&nbsp;<%= _.escape(fullName) %>
