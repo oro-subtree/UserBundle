@@ -1,4 +1,4 @@
-datagrid:
+datagrids:
     users-grid:
         extended_entity_name: %oro_user.entity.class%
         options:
